@@ -3,6 +3,7 @@ import { CategoriesService } from './categories.service';
 import { CategoriesController } from './categories.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
+import { CommonModule } from 'src/common/common.module';
 
 @Module({
   controllers: [CategoriesController],
@@ -10,6 +11,7 @@ import { Category } from './entities/category.entity';
   imports: [
     // Add the TypeOrmModule import
     TypeOrmModule.forFeature([Category]),
+    CommonModule,
   ],
   exports: [CategoriesService],
 })

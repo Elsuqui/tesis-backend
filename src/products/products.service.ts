@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { CategoriesService } from 'src/categories/categories.service';
+import handleDBError from 'src/common/utils/db_error_handler';
 
 @Injectable()
 export class ProductsService {
@@ -15,14 +16,18 @@ export class ProductsService {
   ) {}
 
   async create(createProductDto: CreateProductDto) {
-    const category = await this.categoryService.findOne(
-      createProductDto.categoryId,
-    );
-    const product = this.productRepository.create({
-      ...createProductDto,
-      category,
-    });
-    return await this.productRepository.save(product);
+    try {
+      const category = await this.categoryService.findOne(
+        createProductDto.categoryId,
+      );
+      const product = this.productRepository.create({
+        ...createProductDto,
+        category,
+      });
+      return await this.productRepository.save(product);
+    } catch (error) {
+      handleDBError(error);
+    }
   }
 
   async findAll() {
