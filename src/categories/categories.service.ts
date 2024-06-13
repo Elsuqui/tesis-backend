@@ -50,23 +50,16 @@ export class CategoriesService {
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     try {
-      const category = await this.findOne(id);
-      const updatedAt = new Date().toISOString();
-      console.log(updatedAt);
-      await this.categoryRepository.update(id, {
+      const product = await this.categoryRepository.preload({
+        id,
         ...updateCategoryDto,
-        updatedAt,
       });
-      return {
-        ...category,
-        ...updateCategoryDto,
-        updatedAt,
-      };
+      if (!product) {
+        throw new NotFoundException('Category not found');
+      }
+      return await this.categoryRepository.save(product);
     } catch (e) {
       console.log(e);
-      if (e instanceof NotFoundException) {
-        throw new Error('Category not found');
-      }
     }
   }
 
