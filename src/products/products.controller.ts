@@ -20,19 +20,19 @@ export class ProductsController {
   @Post()
   async create(@Body() createProductDto: CreateProductDto) {
     const product = await this.productsService.create(createProductDto);
-    return createResponse(product, 'Product created');
+    return createResponse(product, 'Success');
   }
 
   @Get()
   async findAll() {
     const products = await this.productsService.findAll();
-    return createResponse(products, 'List of products');
+    return createResponse(products);
   }
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const product = await this.productsService.findOne(id);
-    return createResponse(product, 'Product found');
+    return createResponse(product);
   }
 
   @Patch(':id')
@@ -41,12 +41,12 @@ export class ProductsController {
     @Body() updateProductDto: UpdateProductDto,
   ) {
     const product = this.productsService.update(id, updateProductDto);
-    return createResponse(product, 'Product updated');
+    return createResponse(product);
   }
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     const product = this.productsService.remove(id);
-    return createResponse(product, 'Product removed');
+    return createResponse(product);
   }
 }

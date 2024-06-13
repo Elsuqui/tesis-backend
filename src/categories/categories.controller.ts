@@ -20,19 +20,19 @@ export class CategoriesController {
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     const category = await this.categoriesService.create(createCategoryDto);
-    return createResponse(category, 'Category created');
+    return createResponse(category, 'Success');
   }
 
   @Get()
   async findAll() {
     const categories = await this.categoriesService.findAll();
-    return createResponse(categories, 'List of categories');
+    return createResponse(categories);
   }
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const category = await this.categoriesService.findOne(id);
-    return createResponse(category, 'Category found');
+    return createResponse(category);
   }
 
   @Patch(':id')
@@ -41,12 +41,12 @@ export class CategoriesController {
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     const category = await this.categoriesService.update(id, updateCategoryDto);
-    return createResponse(category, 'Category updated');
+    return createResponse(category);
   }
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     const category = await this.categoriesService.remove(id);
-    return createResponse(category, 'Category removed');
+    return createResponse(category);
   }
 }
