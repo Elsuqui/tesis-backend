@@ -4,6 +4,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { EntityNotFoundError, Repository } from 'typeorm';
+import handleDBError from 'src/common/utils/db_error_handler';
 
 @Injectable()
 export class CategoriesService {
@@ -17,11 +18,8 @@ export class CategoriesService {
       const category = this.categoryRepository.create(createCategoryDto);
       await this.categoryRepository.save(category);
       return category;
-    } catch (e) {
-      console.log('Error: ', e.code);
-      if (e.code === '23505') {
-        throw new Error('Category already exists');
-      }
+    } catch (error) {
+      handleDBError(error);
     }
   }
 
@@ -65,9 +63,8 @@ export class CategoriesService {
 
   async remove(id: number) {
     try {
-      await this.findOne(id);
-      await this.categoryRepository.softDelete(id);
-      return 'Category deleted';
+      const category = await this.findOne(id);
+      return await this.categoryRepository.softRemove(category!);
     } catch (e) {
       console.log(e);
       if (e instanceof NotFoundException) {

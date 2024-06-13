@@ -9,6 +9,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
+      stopAtFirstError: true,
     }),
   );
   console.log('App starting on localhost:3000');
