@@ -1,18 +1,20 @@
 import { Category } from 'src/categories/entities/category.entity';
+import { Audit } from 'src/common/extendable/entities/audit.entity';
+import { MenuDetail } from 'src/menus/entities/menu_detail.entity';
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
-export class Product {
+@Entity({
+  name: 'products',
+})
+export class Product extends Audit {
   @PrimaryGeneratedColumn()
   id: number;
   @Column('text')
@@ -29,10 +31,6 @@ export class Product {
   @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: 'categoryId' })
   category: Category;
-  @CreateDateColumn()
-  createdAt: Date;
-  @UpdateDateColumn()
-  updatedAt: Date;
-  @DeleteDateColumn()
-  deletedAt: Date;
+  @OneToMany(() => MenuDetail, (menuDetail) => menuDetail.product)
+  menuDetails: MenuDetail[];
 }

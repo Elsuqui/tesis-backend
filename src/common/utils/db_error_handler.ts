@@ -16,8 +16,11 @@ interface DriverError extends Error {
 
 const mapQueryErrorMessage = (error: QueryFailedError) => {
   const dbError = error.driverError as DriverError;
+  console.log('Error code: ', dbError.code);
   if (dbError.code === '23505') {
-    return dbError.detail;
+    return 'Duplicated entry';
+  } else if (dbError.code === '23503') {
+    return 'Possible related entity not found';
   }
 };
 
@@ -25,4 +28,5 @@ export default function handleDBError(error: Error) {
   if (error instanceof QueryFailedError) {
     throw new UnprocessableEntityException(mapQueryErrorMessage(error));
   }
+  throw error;
 }

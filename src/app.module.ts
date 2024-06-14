@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CommonModule } from './common/common.module';
+import { MenusModule } from './menus/menus.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { CommonModule } from './common/common.module';
     CategoriesModule,
     ProductsModule,
     CommonModule,
+    MenusModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
