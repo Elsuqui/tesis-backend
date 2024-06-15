@@ -6,6 +6,9 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CommonModule } from './common/common.module';
+import { OrdersModule } from './orders/orders.module';
+import { SessionsModule } from './sessions/sessions.module';
+import { TablesModule } from './tables/tables.module';
 
 @Module({
   imports: [
@@ -19,10 +22,14 @@ import { CommonModule } from './common/common.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
+      entities: ['dist/**/*.entity{.ts,.js}'],
     }),
     CategoriesModule,
     ProductsModule,
     CommonModule,
+    OrdersModule,
+    SessionsModule,
+    TablesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
