@@ -7,11 +7,18 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseInterceptors,
+  UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  BadRequestException,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { createResponse } from 'src/common/dto/response-dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { fromBuffer } from 'file-type';
 
 @Controller('products')
 export class ProductsController {
@@ -48,5 +55,30 @@ export class ProductsController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     const product = this.productsService.remove(id);
     return createResponse(product);
+  }
+
+  @Post(':id/images')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadImageProduct(
+    @Param('id', ParseIntPipe) id: number,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [new MaxFileSizeValidator({ maxSize: 1024 * 1024 })],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    // Validate file type using magic number and file extension
+    const result = await fromBuffer(file.buffer);
+    if (!result) {
+      throw new BadRequestException('Invalid file');
+    }
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+    if (!allowedTypes.includes(result.mime)) {
+      throw new BadRequestException(
+        'Invalid file type, only supports jpeg, png and webp',
+      );
+    }
+    return this.productsService.addImageToProduct(id, file);
   }
 }

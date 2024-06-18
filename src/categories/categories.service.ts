@@ -26,7 +26,6 @@ export class CategoriesService {
   async findAll() {
     try {
       const results = await this.categoryRepository.find();
-      console.log('results: ', results);
       return results;
     } catch (e) {
       console.log(e);
@@ -47,18 +46,14 @@ export class CategoriesService {
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    try {
-      const product = await this.categoryRepository.preload({
-        id,
-        ...updateCategoryDto,
-      });
-      if (!product) {
-        throw new NotFoundException('Category not found');
-      }
-      return await this.categoryRepository.save(product);
-    } catch (e) {
-      console.log(e);
+    const product = await this.categoryRepository.preload({
+      id,
+      ...updateCategoryDto,
+    });
+    if (!product) {
+      throw new NotFoundException('Category not found');
     }
+    return await this.categoryRepository.save(product);
   }
 
   async remove(id: number) {
@@ -71,5 +66,12 @@ export class CategoriesService {
         throw new Error('Category not found');
       }
     }
+  }
+
+  async showMenu() {
+    const categories = await this.categoryRepository.find({
+      relations: ['products'],
+    });
+    return categories;
   }
 }

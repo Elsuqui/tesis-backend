@@ -1,25 +1,25 @@
 import { Category } from 'src/categories/entities/category.entity';
+import { Audit } from 'src/common/utils/audit.entity';
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
-export class Product {
+@Entity({ name: 'products' })
+export class Product extends Audit {
   @PrimaryGeneratedColumn()
   id: number;
   @Column('text')
   @Index({ unique: true, where: '"deletedAt" IS NULL' })
   name: string;
   @Column('text', { nullable: true })
-  description: string;
+  description?: string;
+  @Column('text', { nullable: true })
+  image_url?: string;
   @Column('float')
   price: number;
   @Column('numeric', {
@@ -29,10 +29,4 @@ export class Product {
   @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({ name: 'categoryId' })
   category: Category;
-  @CreateDateColumn()
-  createdAt: Date;
-  @UpdateDateColumn()
-  updatedAt: Date;
-  @DeleteDateColumn()
-  deletedAt: Date;
 }
