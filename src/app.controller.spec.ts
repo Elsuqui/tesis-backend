@@ -1,22 +1,41 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CategoriesService } from './categories/categories.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Category } from 'src/categories/entities/category.entity';
+import { Repository } from 'typeorm';
 
 describe('AppController', () => {
   let appController: AppController;
+  let categoryRepository: Repository<Category>;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        AppService,
+        CategoriesService,
+        {
+          provide: getRepositoryToken(Category),
+          useClass: Repository,
+        },
+      ], 
     }).compile();
 
-    appController = app.get<AppController>(AppController);
+    appController = module.get<AppController>(AppController);
+    categoryRepository = module.get<Repository<Category>>(
+      getRepositoryToken(Category),
+    );
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
-    });
+  it('should be defined', () => {
+    expect(appController).toBeDefined();
   });
+
+  it('should return the correct message from getHello()', () => {
+    const result = appController.getHello();
+    expect(result).toBe('Hello World!');
+  });
+
 });
