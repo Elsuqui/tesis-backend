@@ -51,7 +51,7 @@ describe('CategoriesService', () => {
       const categoryId = 1;
       const mockCategory = new Category();
       mockCategory.id = categoryId;
-      jest.spyOn(categoriesService, 'findOne').mockResolvedValue(mockCategory);
+      jest.spyOn(categoryRepository, 'findOneByOrFail').mockResolvedValue(mockCategory);
 
       // Call the service method
       const result = await categoriesService.findOne(categoryId);
