@@ -1,0 +1,26 @@
+{
+  "name": "tesis-e2e-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
+    "test": "npm run build & mocha 'dist/**/*.js' "
+  },
+  "author": "Miguel Pinzon",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "devDependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.14.9",
+    "chai": "^5.1.1",
+    "http-status-codes": "^2.3.0",
+    "mocha": "^10.5.1",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
+  }
+}
