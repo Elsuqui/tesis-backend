@@ -99,4 +99,6 @@ Temporary Items
 ## Reports ##
 report
 
+dist/
+
 # End of https://www.gitignore.io/api/osx,node,visualstudiocode
