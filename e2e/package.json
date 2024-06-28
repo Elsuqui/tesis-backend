@@ -5,7 +5,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && tsc",
-    "test": "npm run build && mocha --config .mocharc.yaml --grep='@miguel'"
+    "test": "npm run build && mocha --config .mocharc.yaml --grep='@smoketest'",
+    "test:local": "npm run build && mocha --config .mocharc.yaml --grep='@local'"
   },
   "author": "Miguel Pinzon",
   "license": "ISC",

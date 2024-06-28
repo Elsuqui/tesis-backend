@@ -3,33 +3,34 @@ import { expect } from "chai";
 import { StatusCodes } from 'http-status-codes';
 import 'dotenv/config'
 import { Category } from '../../dto/category.js';
+import { CategoryController } from '../../controller/categoriesController.js';
 
-describe('Localhost Api Tests', () => {
-  let createdCategory: Category;
+describe('Create category e2e tests', () => {
+  let createdCategory: Category,
+  categoryController: CategoryController;
   const baseUrl = process.env.BASE_URL;
-    it('Creates a new category @miguel', async () => {
 
-        const requestBody = {
-          name: Math.random().toString().substr(2, 8),
-        };
-        
-        console.log('Environment variables:', process.env);
-        
+  beforeEach(async () => {
+    categoryController = new CategoryController();
+  }) 
 
-        const response = await axios.post(`${baseUrl}/api/categories`, requestBody);
+  it('Creates a new category @smoketest', async () => {
 
-        createdCategory = new Category(response.data.data);
+      const requestBody = {
+        name: Math.random().toString().substr(2, 8),
+      };
       
-        //console.log(response);
-        
-        expect(response.status).to.equal(StatusCodes.CREATED);
-        expect(createdCategory.name).to.equal(requestBody.name);
-      });
+      const response = await axios.post(`${baseUrl}/categories`, requestBody);
+      createdCategory = new Category(response.data.data);
+    
+      expect(response.status).to.equal(StatusCodes.CREATED);
+      expect(createdCategory.name).to.equal(requestBody.name);
+    });
 
-    after(async () => {
-      if(createdCategory.id) {
-        const deleteResponse = await axios.delete(`${baseUrl}/api/categories/${createdCategory.id}`);
-        expect(deleteResponse.status).to.equal(StatusCodes.OK)
-      }
-    })
+  after(async () => {
+    if(createdCategory.id) {
+      const deleteResponse = await categoryController.deleteCategory(createdCategory.id.toString())
+      expect(deleteResponse.status).to.equal(StatusCodes.OK)
+    }
+  })
 });
