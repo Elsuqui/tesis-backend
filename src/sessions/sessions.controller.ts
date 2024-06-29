@@ -8,23 +8,24 @@ import {
 } from '@nestjs/common';
 import { SessionsService } from './sessions.service';
 import { CreateSessionDto } from './dto/create-session.dto';
+import { createResponse } from 'src/common/dto/response-dto';
 
 @Controller('sessions')
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
   @Get()
-  findAll() {
-    return this.sessionsService.findAll();
+  async findAll() {
+    return createResponse(await this.sessionsService.findAll());
   }
 
   @Post()
-  create(@Body() createSessionDto: CreateSessionDto) {
-    return this.sessionsService.create(createSessionDto);
+  async create(@Body() createSessionDto: CreateSessionDto) {
+    return createResponse(await this.sessionsService.create(createSessionDto));
   }
 
   @Post(':uuid/extends')
-  extendSession(@Param('uuid', ParseUUIDPipe) uuid: string) {
-    return this.sessionsService.extendSession(uuid);
+  async extendSession(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return createResponse(await this.sessionsService.extendSession(uuid));
   }
 }

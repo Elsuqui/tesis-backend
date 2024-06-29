@@ -72,6 +72,6 @@ export class CategoriesService {
     const categories = await this.categoryRepository.find({
       relations: ['products'],
     });
-    return categories;
+    return { categories };
   }
 }

@@ -12,6 +12,7 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -31,8 +32,8 @@ export class ProductsController {
   }
 
   @Get()
-  async findAll() {
-    const products = await this.productsService.findAll();
+  async findAll(@Query('q') query?: string) {
+    const products = await this.productsService.findAll(query);
     return createResponse(products);
   }
 
@@ -47,13 +48,13 @@ export class ProductsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    const product = this.productsService.update(id, updateProductDto);
+    const product = await this.productsService.update(id, updateProductDto);
     return createResponse(product);
   }
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const product = this.productsService.remove(id);
+    const product = await this.productsService.remove(id);
     return createResponse(product);
   }
 
@@ -79,6 +80,8 @@ export class ProductsController {
         'Invalid file type, only supports jpeg, png and webp',
       );
     }
-    return this.productsService.addImageToProduct(id, file);
+    return createResponse(
+      await this.productsService.addImageToProduct(id, file),
+    );
   }
 }

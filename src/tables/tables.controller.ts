@@ -12,44 +12,45 @@ import { TablesService } from './tables.service';
 import { CreateTableDto } from './dto/create-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';
 import { SyncTableDto } from './dto/sync-table.dto';
+import { createResponse } from 'src/common/dto/response-dto';
 
 @Controller('tables')
 export class TablesController {
   constructor(private readonly tablesService: TablesService) {}
 
   @Post()
-  create(@Body() createTableDto: CreateTableDto) {
-    return this.tablesService.create(createTableDto);
+  async create(@Body() createTableDto: CreateTableDto) {
+    return createResponse(await this.tablesService.create(createTableDto));
   }
 
   @Get()
-  findAll() {
-    return this.tablesService.findAll();
+  async findAll() {
+    return createResponse(await this.tablesService.findAll());
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.tablesService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return createResponse(await this.tablesService.findOne(id));
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateTableDto: UpdateTableDto,
   ) {
-    return this.tablesService.update(id, updateTableDto);
+    return createResponse(await this.tablesService.update(id, updateTableDto));
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.tablesService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return createResponse(await this.tablesService.remove(id));
   }
 
   @Post(':id/sync')
-  tableSync(
+  async tableSync(
     @Param('id', ParseIntPipe) id: number,
     @Body() syncTableDto: SyncTableDto,
   ) {
-    return this.tablesService.tableSync(id, syncTableDto);
+    return createResponse(await this.tablesService.tableSync(id, syncTableDto));
   }
 }

@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CategoriesService } from './categories/categories.service';
+import { createResponse } from './common/dto/response-dto';
 
 @Controller()
 export class AppController {
@@ -15,7 +16,7 @@ export class AppController {
   }
 
   @Get('/menu')
-  getMenu() {
-    return this.categoriesService.showMenu();
+  async getMenu() {
+    return createResponse(await this.categoriesService.showMenu());
   }
 }
