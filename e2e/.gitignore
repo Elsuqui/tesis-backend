@@ -98,7 +98,7 @@ Temporary Items
 
 ## Reports ##
 report
-
+mochawesome-report/
 dist/
 
 # End of https://www.gitignore.io/api/osx,node,visualstudiocode

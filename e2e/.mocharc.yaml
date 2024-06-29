@@ -1,0 +1,4 @@
+# .mocharc.yaml
+require: 'ts-node/register'
+spec: 'dist/**/*.spec.*'
+reporter: 'mochawesome'
