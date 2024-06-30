@@ -13,8 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Docker Compose
-        run: docker-compose build
+      - name: Install dependencies
+        run: | 
+          npm install
+          cd e2e/
+          npm install
+          cd ..
 
       - name: Start services locally
         run: docker-compose up -d
@@ -34,9 +38,6 @@ jobs:
           echo AWS_S3_SECRET_KEY= ${{ secrets.AWS_S3_SECRET_KEY }} >> .env
           echo AWS_S3_REGION_NAME= ${{ secrets.AWS_S3_REGION_NAME }} >> .env
           echo AWS_S3_BUCKET_NAME= ${{ secrets.AWS_S3_BUCKET_NAME }} >> .env
-
-      - name: Install dependencies
-        run: npm install
 
       - name: Start NestJS app
         run: npm run start
