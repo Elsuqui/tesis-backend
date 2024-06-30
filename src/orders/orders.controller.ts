@@ -8,23 +8,24 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { createResponse } from 'src/common/dto/response-dto';
 
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  async create(@Body() createOrderDto: CreateOrderDto) {
+    return createResponse(await this.ordersService.create(createOrderDto));
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  async findAll() {
+    return createResponse(await this.ordersService.findAll());
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.ordersService.findOne(id);
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return createResponse(await this.ordersService.findOne(id));
   }
 }

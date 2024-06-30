@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { CategoriesService } from 'src/categories/categories.service';
 import handleDBError from 'src/common/utils/db_error_handler';
@@ -36,10 +36,14 @@ export class ProductsService {
     }
   }
 
-  async findAll() {
-    return await this.productRepository.find({
+  async findAll(query?: string) {
+    const queryLike = `%${query}%`;
+    //Arroz con menestra
+    const result = await this.productRepository.find({
+      where: query ? { name: ILike(queryLike) } : {},
       relations: { category: true },
     });
+    return result;
   }
 
   async findOne(id: number) {
