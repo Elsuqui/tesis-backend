@@ -51,5 +51,5 @@ jobs:
         run: |
           cd e2e/
           touch .env
-          echo BASE_URL=${{ secrets.TEST_BASE_URL }} >> .env
+          echo BASE_URL=${{ secrets.LOCAL_BASE_URL }} >> .env
           npm test
