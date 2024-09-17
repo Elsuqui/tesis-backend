@@ -15,6 +15,8 @@ export class Category extends Audit {
   @Column('text')
   @Index({ unique: true, where: '"deletedAt" IS NULL' })
   name: string;
+  @Column('text', { nullable: true })
+  imageUrl: string;
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];
 }
