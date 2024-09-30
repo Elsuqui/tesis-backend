@@ -10,8 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+     - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Setup Docker
+        uses: actions/setup-docker@v4
 
       - name: Create app env file
         run: |
@@ -37,7 +40,6 @@ jobs:
           cd ..
 
       - name: Start database locally
-        uses: actions/setup-docker@v4
         run: docker-compose up -d
 
       - name: Start NestJS app
