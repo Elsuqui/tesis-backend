@@ -11,8 +11,8 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-        uses: actions/setup-docker@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-docker@v4
 
       - name: Create app env file
         run: |
