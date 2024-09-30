@@ -11,7 +11,7 @@ describe('OrdersController', () => {
   let ordersController: OrdersController;
   let ordersService: OrdersService;
   let orderRepository: Repository<Order>;
-  let sessionRepository: Repository<Session>
+  let sessionRepository: Repository<Session>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,9 +31,7 @@ describe('OrdersController', () => {
     }).compile();
 
     ordersController = module.get<OrdersController>(OrdersController);
-    orderRepository = module.get<Repository<Order>>(
-      getRepositoryToken(Order),
-    );
+    orderRepository = module.get<Repository<Order>>(getRepositoryToken(Order));
     sessionRepository = module.get<Repository<Session>>(
       getRepositoryToken(Session),
     );
@@ -43,8 +41,6 @@ describe('OrdersController', () => {
   it('should be defined', () => {
     expect(ordersController).toBeDefined();
   });
-
-
 
   // Add more test cases for other controller methods (findAll, findOne, etc.)
 });

@@ -16,13 +16,13 @@ describe('SessionsController', () => {
         SessionsService,
         {
           provide: getRepositoryToken(Session),
-          useClass: Repository
+          useClass: Repository,
         },
       ],
     }).compile();
 
     sessionsRepository = module.get<Repository<Session>>(
-      getRepositoryToken(Session)
+      getRepositoryToken(Session),
     );
     controller = module.get<SessionsController>(SessionsController);
   });

@@ -26,20 +26,20 @@ describe('CategoriesController', () => {
   });
 
   it('should create a new category', async () => {
-    const createCategoryDto: CreateCategoryDto = { 
-      name: 'Desserts'
+    const createCategoryDto: CreateCategoryDto = {
+      name: 'Desserts',
     };
 
-    const mockCategory = new Category()
+    const mockCategory = new Category();
     mockCategory.name = 'Desserts';
 
     jest.spyOn(service, 'create').mockResolvedValue(mockCategory);
 
     const result = await controller.create(createCategoryDto);
     const expectedResult = {
-      'data': mockCategory,
-      'message': 'Success'
-    }
+      data: mockCategory,
+      message: 'Success',
+    };
 
     expect(result).toEqual(expectedResult);
   });

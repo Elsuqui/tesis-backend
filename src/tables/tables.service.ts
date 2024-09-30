@@ -6,6 +6,7 @@ import { CreateTableDto } from './dto/create-table.dto';
 import { Table } from './entities/table.entity';
 import { SessionsService } from 'src/sessions/sessions.service';
 import { SyncTableDto } from './dto/sync-table.dto';
+import { SessionNotFoundError } from 'src/sessions/exceptions/sessionNotFoundError';
 
 @Injectable()
 export class TablesService {
@@ -60,6 +61,31 @@ export class TablesService {
       });
       return session;
     }
+    // Neeew code
+    // Check if the session belongs to the same user issued the sync request
+    if (existingSession.issuedBy !== syncTableDto.issuedBy) {
+      const session = this.sessionService.create({
+        tableId: id,
+        issuedBy: syncTableDto.issuedBy,
+        phoneManufacturer: syncTableDto.phoneManufacturer,
+      });
+      return session;
+    }
+    //******** */
     return await this.sessionService.extendSession(existingSession.uuid);
+  }
+
+  async checkSessionExpirationByTable(id: number) {
+    try {
+      const session = await this.sessionService.findActiveSessionByTableId(id);
+      if (!session) {
+        throw new SessionNotFoundError();
+      }
+      return await this.sessionService.checkSessionExpiration(session.uuid);
+    } catch (error) {
+      if (error instanceof SessionNotFoundError) {
+        throw new NotFoundException('Table has no active session');
+      }
+    }
   }
 }

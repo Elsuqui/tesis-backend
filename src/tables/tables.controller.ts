@@ -53,4 +53,11 @@ export class TablesController {
   ) {
     return createResponse(await this.tablesService.tableSync(id, syncTableDto));
   }
+
+  @Get('/:id/active-sessions')
+  async checkSessionByTable(@Param('id', ParseIntPipe) id: number) {
+    return createResponse(
+      await this.tablesService.checkSessionExpirationByTable(id),
+    );
+  }
 }
