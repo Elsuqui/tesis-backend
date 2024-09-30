@@ -37,7 +37,7 @@ jobs:
           cd ..
 
       - name: Start database locally
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Start NestJS app
         run: npm run start &
