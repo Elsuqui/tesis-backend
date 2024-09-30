@@ -6,20 +6,21 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('SessionsService', () => {
   let service: SessionsService;
-  let sessionsRepository: Repository<Session>
+  let sessionsRepository: Repository<Session>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SessionsService,
+      providers: [
+        SessionsService,
         {
           provide: getRepositoryToken(Session),
-          useClass: Repository
-        }
+          useClass: Repository,
+        },
       ],
     }).compile();
 
     sessionsRepository = module.get<Repository<Session>>(
-      getRepositoryToken(Session)
+      getRepositoryToken(Session),
     );
     service = module.get<SessionsService>(SessionsService);
   });

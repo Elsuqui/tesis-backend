@@ -28,4 +28,13 @@ export class OrdersController {
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return createResponse(await this.ordersService.findOne(id));
   }
+
+  @Get('/session/:sessionUuid')
+  async findOrdersBySession(
+    @Param('sessionUuid', ParseUUIDPipe) sessionUuid: string,
+  ) {
+    return createResponse(
+      await this.ordersService.findOrdersBySession(sessionUuid),
+    );
+  }
 }

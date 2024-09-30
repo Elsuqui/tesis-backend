@@ -51,7 +51,9 @@ describe('CategoriesService', () => {
       const categoryId = 1;
       const mockCategory = new Category();
       mockCategory.id = categoryId;
-      jest.spyOn(categoryRepository, 'findOneByOrFail').mockResolvedValue(mockCategory);
+      jest
+        .spyOn(categoryRepository, 'findOneByOrFail')
+        .mockResolvedValue(mockCategory);
 
       // Call the service method
       const result = await categoriesService.findOne(categoryId);
@@ -71,7 +73,6 @@ describe('CategoriesService', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error.message).toBe('Category not found');
-
       }
     });
   });

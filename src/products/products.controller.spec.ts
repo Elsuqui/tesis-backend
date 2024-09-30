@@ -20,12 +20,9 @@ describe('ProductsController', () => {
     }).compile();
     controller = module.get<ProductsController>(ProductsController);
     service = module.get<ProductsService>(ProductsService);
-  
-  })
-
+  });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
-
 });

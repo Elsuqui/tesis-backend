@@ -20,7 +20,7 @@ describe('AppController', () => {
           provide: getRepositoryToken(Category),
           useClass: Repository,
         },
-      ], 
+      ],
     }).compile();
 
     appController = module.get<AppController>(AppController);
@@ -37,5 +37,4 @@ describe('AppController', () => {
     const result = appController.getHello();
     expect(result).toBe('Hello World!');
   });
-
 });

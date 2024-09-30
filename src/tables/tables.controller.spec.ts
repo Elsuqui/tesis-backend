@@ -15,24 +15,23 @@ describe('TablesController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [TablesController],
-      providers: [TablesService,
+      providers: [
+        TablesService,
         SessionsService,
         {
           provide: getRepositoryToken(Table),
-          useClass: Repository
+          useClass: Repository,
         },
         {
           provide: getRepositoryToken(Session),
-          useClass: Repository
+          useClass: Repository,
         },
       ],
     }).compile();
 
-    tablesRepository = module.get<Repository<Table>>(
-      getRepositoryToken(Table),
-    );
+    tablesRepository = module.get<Repository<Table>>(getRepositoryToken(Table));
     sessionsRepository = module.get<Repository<Session>>(
-      getRepositoryToken(Session)
+      getRepositoryToken(Session),
     );
     controller = module.get<TablesController>(TablesController);
   });

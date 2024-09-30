@@ -101,4 +101,12 @@ export class OrdersService {
       order: { createdAt: 'DESC' },
     });
   }
+
+  async findOrdersBySession(sessionUuid: string) {
+    const orders = await this.orderRepository.find({
+      where: { sessionUuid },
+      relations: ['orderDetails'],
+    });
+    return orders;
+  }
 }

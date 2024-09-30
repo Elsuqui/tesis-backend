@@ -9,10 +9,9 @@ import { Session } from 'src/sessions/entities/session.entity';
 describe('OrdersService', () => {
   let ordersService: OrdersService;
   let ordersRepository: Repository<Order>;
-  
+
   let sessionRepository: Repository<Session>;
 
-  
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -20,22 +19,19 @@ describe('OrdersService', () => {
         SessionsService,
         {
           provide: getRepositoryToken(Order),
-          useClass: Repository
+          useClass: Repository,
         },
         {
           provide: getRepositoryToken(Session),
-          useClass: Repository
+          useClass: Repository,
         },
-        
       ],
     }).compile();
 
     ordersService = module.get<OrdersService>(OrdersService);
-    ordersRepository = module.get<Repository<Order>>(
-      getRepositoryToken(Order),
-    );
+    ordersRepository = module.get<Repository<Order>>(getRepositoryToken(Order));
     sessionRepository = module.get<Repository<Session>>(
-      getRepositoryToken(Session)
+      getRepositoryToken(Session),
     );
   });
 

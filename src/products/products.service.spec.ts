@@ -8,7 +8,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('ProductsService', () => {
   let productService: ProductsService;
-  let productRepository: Repository<Product>
+  let productRepository: Repository<Product>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

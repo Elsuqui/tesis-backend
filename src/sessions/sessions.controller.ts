@@ -28,4 +28,11 @@ export class SessionsController {
   async extendSession(@Param('uuid', ParseUUIDPipe) uuid: string) {
     return createResponse(await this.sessionsService.extendSession(uuid));
   }
+
+  @Get(':uuid/check')
+  async checkSessionStatus(@Param('uuid', ParseUUIDPipe) uuid: string) {
+    return createResponse(
+      await this.sessionsService.checkSessionExpiration(uuid),
+    );
+  }
 }
